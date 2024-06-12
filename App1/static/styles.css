@@ -1,56 +1,56 @@
 .carousel {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    overflow: hidden;
-    margin: auto;
-  }
-  .carousel img {
-    width: 100%;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 1s ease-in-out;
-  }
-  .carousel img.active {
-    opacity: 1;
-    position: relative;
-  }
-  .carousel-indicators {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-  }
-  .carousel-indicators button {
-    background-color: #fff;
-    border: none;
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  .carousel-indicators button.active {
-    background-color: #000;
-  }
-  .carousel-controls {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-  }
-  .carousel-controls button {
-    background: rgba(255, 255, 255, 0.7);
-    border: none;
-    width: 40px; /* Tornar os botões quadrados */
-    height: 40px; /* Tornar os botões quadrados */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      overflow: hidden;
+      margin: auto;
+    }
+    .carousel img {
+      width: 100%;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .carousel img.active {
+      opacity: 1;
+      position: relative;
+    }
+    .carousel-indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+    }
+    .carousel-indicators button {
+      background-color: #fff;
+      border: none;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .carousel-indicators button.active {
+      background-color: #000;
+    }
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    .carousel-controls button {
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      width: 40px; /* Tornar os botões quadrados */
+      height: 40px; /* Tornar os botões quadrados */
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
