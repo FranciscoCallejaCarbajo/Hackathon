@@ -4,11 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hackathon</title>
     <link rel="stylesheet" href="{% static "styles.css" %}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    hola
+    <!--
+// v0 by Vercel.
+// https://v0.dev/t/bSCzjiJiSmo
+-->
+
+<div class="w-full">
+    <header class="bg-gray-900 py-6 px-4 md:px-6">
+      <div class="container mx-auto flex items-center justify-between">
+        <a class="text-white font-bold text-xl" href="#">
+          Acme Inc.
+        </a>
+        <div class="flex items-center gap-4">
+          <a class="text-white hover:text-gray-300 transition-colors" href="#">
+            Login
+          </a>
+          <a
+            class="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            href="#"
+          >
+            Register
+          </a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="bg-gray-100 py-12 px-4 md:px-6">
+        <div class="container mx-auto flex flex-col items-center justify-center">
+          <h1 class="text-3xl font-bold mb-4">Find what you need</h1>
+          <div class="w-full max-w-md">
+            <input
+              class="flex h-10 border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500"
+              placeholder="Search for products, services, and more..."
+            />
+          </div>
+        </div>
+      </section>
+      <body class="bg-gray-100">
+
+        <div class="carousel">
+          <img src="{% static "mar.jpg" %}" alt="Imagem 1" class="active">
+          <img src="{% static "corazon.jpg" %}" alt="Imagem 2">
+          <img src="{% static "hoja.jpg" %}" alt="Imagem 3">
+      
+          <div class="carousel-controls">
+            <button onclick="prevSlide()">&#10094;</button>
+            <button onclick="nextSlide()">&#10095;</button>
+          </div>
+      
+          <div class="carousel-indicators">
+            <button class="active" onclick="showSlide(0)"></button>
+            <button onclick="showSlide(1)"></button>
+            <button onclick="showSlide(2)"></button>
+          </div>
+        </div>
+      
+
+
+      
+    </main>
+  </div>
 
     <script src="{% static "script.js" %}"></script>
 </body>
