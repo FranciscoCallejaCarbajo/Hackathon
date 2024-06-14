@@ -1,89 +1,35 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-learn</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="{% static 'Logo(E).svg' %}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-
-<div class="w-full">
-    <header class="bg-gray-900 py-6 px-4 md:px-6">
-      <div class="container mx-auto flex items-center justify-between">
-        <a class="text-white font-bold text-2xl" href="">
-          <img src="{% static 'Logo.svg' %}" alt="http://127.0.0.1:8000/">
-        </a>
-        <div class="flex items-center gap-4">
-          {% if user.is_authenticated %}
-            <a class="pr-8 text-white hover:text-gray-300 transition-colors text-md" href="{% url 'perfil_usuario' %}">
-                Mi Perfil 
-            </a>
-        {% else %}
-            <a class="pr-8 text-white hover:text-gray-300 transition-colors text-md" href="{% url 'login' %}">
-                Iniciar sesión
-            </a>
-            <a class="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-md font-medium text-gray-900 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" href="{% url 'register' %}">
-                Unirse
-            </a>
-        {% endif %}
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <body class="bg-gray-100">
-        <section class="bg-gray-100 py-12 px-4 md:px-6">
-          <div class="container mx-auto flex flex-col items-center justify-center">
-              <h1 class="text-3xl font-bold mb-4">Encuentra lo que Necesitas</h1>
-              <div class="flex items-center">
-                <div class="w-full max-w-xl flex-grow mr-2">
-                    <input
-                        id="busqueda"
-                        class="h-12 resize-x border bg-background px-4 py-3 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500"
-                        placeholder="¿Qué quieres aprender hoy?"
-                    />
-                </div>
-                <button id="botonBusqueda" class="h-10 w-12 flex items-center justify-center rounded-full bg-gray-900 text-white">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-          </div>
-        </section>
-
-        <h2 id="resultados" class="text-2xl font-bold text-center mb-8" style="display: none;">Resultados</h2>
-
-        <div class="container mx-auto flex flex-wrap justify-center pt-1 pb-10">
-            {% for curso in cursos %}
-            <div class="max-w-xs rounded-xl overflow-hidden shadow-lg m-2" style="width: 275px; height: 400px; position: relative;">
-            <a href="{{ curso.enlace }}" target="_blank">
-                <img class="w-full h-48 object-cover" src="{{ curso.imagen.url }}" alt="{{ curso.titulo }}">
-            </a>
-            <div class="px-4 py-2">
-                <div class="font-bold text-base mb-2">{{ curso.titulo }}</div>
-                <p class="text-gray-600 text-sm">
-                    {{ curso.descripcion }}
-                </p>
-            </div>
-            <div class="px-4 pt-2 pb-1">
-                {% for categoria in curso.categorias.all %}
-                <span class="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">#{{ categoria.nombre }}</span>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-10">
+        <h1 class="text-2xl font-bold mb-5">Lista de Cursos</h1>
+        
+        {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+            </form>
+            <ul class="mt-5">
+                {% for curso in cursos %}
+                    <li class="mb-4 p-4 bg-white shadow rounded">
+                        <h2 class="text-xl font-semibold">{{ curso.titulo }}</h2>
+                        <p>{{ curso.descripcion }}</p>
+                        <p><strong>Precio:</strong> ${{ curso.precio }}</p>
+                        <p><strong>Valoración:</strong> {{ curso.valoracion }}</p>
+                        <a href="{{ curso.enlace }}" class="text-blue-500">Ver más</a>
+                        <img src="{{ curso.imagen.url }}" alt="{{ curso.titulo }}" class="mt-2">
+                    </li>
                 {% endfor %}
-            </div>
-            {% if user.is_authenticated %}
-                <a href="{% url 'agregar_favorito' curso.id %}" class="corazon" style="position: absolute; bottom: 10px; right: 10px; font-size: 24px;">
-                    🖤
-                </a>
-            {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-    </main>
-</div>
-
+            </ul>
+        {% else %}
+            <p class="text-red-500">Debes estar logueado para ver los cursos.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
