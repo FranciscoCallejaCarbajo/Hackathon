@@ -6,8 +6,8 @@ class Usuarios(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="Nombre")
     apellido = models.CharField(max_length=50, verbose_name="Apellido")
     email = models.EmailField(max_length=50, verbose_name="Email", unique=True)
-    contraseña = models.CharField(max_length=50, verbose_name="Contraseña")
     birthday = models.DateField(verbose_name="Cumpleaños")
+    favoritos = models.ManyToManyField('Curso', through='Favoritos', related_name='usuarios_favoritos')
 
     class Meta:
         db_table = "Usuarios"
@@ -17,10 +17,6 @@ class Usuarios(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
-
-
-    
-# Modelo de Categoría
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True, verbose_name="Nombre")
 
@@ -32,7 +28,6 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
-# Modelo de Curso
 class Curso(models.Model):
     titulo = models.CharField(max_length=200, verbose_name="Título")
     descripcion = models.TextField(verbose_name="Descripción")
@@ -51,7 +46,6 @@ class Curso(models.Model):
     def __str__(self):
         return self.titulo
 
-# Modelo de Relación Curso-Categoría
 class CursoCategoria(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
@@ -62,7 +56,9 @@ class CursoCategoria(models.Model):
         verbose_name_plural = "Cursos-Categorías"
         unique_together = ('curso', 'categoria')
 
-# Modelo de Relación Usuario-Curso
+    def __str__(self):
+        return f"{self.curso.titulo} - {self.categoria.nombre}"
+
 class UsuarioCurso(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
@@ -72,3 +68,20 @@ class UsuarioCurso(models.Model):
         verbose_name = "Usuario-Curso"
         verbose_name_plural = "Usuarios-Cursos"
         unique_together = ('usuario', 'curso')
+
+    def __str__(self):
+        return f"{self.usuario.nombre} {self.usuario.apellido} - {self.curso.titulo}"
+
+class Favoritos(models.Model):
+    usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE, related_name='favoritos_relacionados')
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "Favoritos"
+        verbose_name = "Favorito"
+        verbose_name_plural = "Favoritos"
+        unique_together = ('usuario', 'curso')
+
+    def __str__(self):
+        return f"{self.usuario.nombre} {self.usuario.apellido} - {self.curso.titulo}"

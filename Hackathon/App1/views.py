@@ -1,14 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Curso
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Curso, Usuarios
+from .models import Curso, Usuarios, Favoritos
 from django.contrib.auth.models import User
 
 def IndexView(request):
     """Página de inicio"""
-    cursos = Curso.objects.all() if request.user.is_authenticated else []
+    cursos = Curso.objects.all()  # Obtener todos los cursos siempre
     user = request.user if request.user.is_authenticated else None
     usuario = None
 
@@ -20,7 +20,6 @@ def IndexView(request):
 
     context = {'cursos': cursos, 'user': user, 'usuario': usuario}
     return render(request, "index.html", context=context)
-
 
 # def LoginView(request):
     """Página de login"""
@@ -92,3 +91,35 @@ def UserView(request):
 def LogoutView(request):
     logout(request)
     return redirect('/')
+
+@login_required
+def like_course(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    usuario = request.user.usuarios
+
+    # Verificar si el curso ya está en favoritos
+    if Favoritos.objects.filter(usuario=usuario, curso=curso).exists():
+        # Si ya está en favoritos, eliminarlo
+        Favoritos.objects.filter(usuario=usuario, curso=curso).delete()
+    else:
+        # Si no está en favoritos, agregarlo
+        Favoritos.objects.create(usuario=usuario, curso=curso)
+
+    return redirect('index')  # Redirigir a la página principal después de la acción
+
+@login_required
+def UserView(request):
+    """Página de usuario"""
+    user = request.user if request.user.is_authenticated else None
+    usuario = None
+    favoritos = []
+
+    if user:
+        try:
+            usuario = user.usuarios  # Intenta acceder al objeto Usuarios asociado al User
+            favoritos = usuario.favoritos.all()  # Obtén todos los cursos favoritos del usuario
+        except Usuarios.DoesNotExist:
+            print("No existe un objeto Usuarios asociado a este usuario")
+
+    context = {'user': user, 'usuario': usuario, 'favoritos': favoritos}
+    return render(request, "user.html", context=context)
