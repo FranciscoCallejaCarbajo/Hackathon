@@ -3,8 +3,9 @@ from .models import Usuarios, Categoria, Curso, UsuarioCurso, CursoCategoria, Fa
 
 @admin.register(Usuarios)
 class UsuariosAdmin(admin.ModelAdmin):
-    fields = ["nombre", "apellido", "email", "birthday"]
+    fields = ["nombre", "apellido", "email", "contraseña", "birthday"]
     list_display = ["nombre", "apellido", "email", "birthday"]
+    search_fields = ["nombre", "apellido", "email"]
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):

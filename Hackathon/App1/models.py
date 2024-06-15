@@ -6,6 +6,7 @@ class Usuarios(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="Nombre")
     apellido = models.CharField(max_length=50, verbose_name="Apellido")
     email = models.EmailField(max_length=50, verbose_name="Email", unique=True)
+    contraseña = models.CharField(max_length=128, verbose_name="Contraseña", default="temporal")  # Valor temporal
     birthday = models.DateField(verbose_name="Cumpleaños")
     favoritos = models.ManyToManyField('Curso', through='Favoritos', related_name='usuarios_favoritos')
 

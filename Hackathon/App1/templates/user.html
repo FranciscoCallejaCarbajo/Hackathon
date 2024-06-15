@@ -58,6 +58,9 @@
                         <div class="font-bold text-base mb-2">{{ curso.titulo }}</div>
                         <p class="text-gray-600 text-sm">{{ curso.descripcion }}</p>
                     </div>
+                    <div class="px-4 py-2">
+                        <div class="font-bold text-base mb-2">{{curso.precio}}</div>
+                    </div>
                     <div class="px-4 pt-2 pb-1">
                         {% for categoria in curso.categorias.all %}
                             <span class="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">#{{ categoria.nombre }}</span>

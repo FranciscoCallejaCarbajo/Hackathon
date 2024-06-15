@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Curso, Usuarios, Favoritos
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 def IndexView(request):
     """Página de inicio"""
@@ -58,9 +59,11 @@ def crear_usuario(request):
         # Crea un usuario en el modelo de usuario de Django
         user = User.objects.create_user(username=email, email=email, password=contraseña)
         
+        # Hashea la contraseña antes de guardarla en el modelo Usuarios
+        hashed_password = make_password(contraseña)
+        
         # Crea una instancia de Usuarios asociada a este usuario
-        usuario = Usuarios(user=user, nombre=nombre, apellido=apellido, email=email, contraseña=contraseña,
-                        birthday=birthday)
+        usuario = Usuarios(user=user, nombre=nombre, apellido=apellido, email=email, contraseña=hashed_password, birthday=birthday)
         
         usuario.save()  # Guarda el usuario en la base de datos
 
@@ -68,7 +71,6 @@ def crear_usuario(request):
     
     # Si el método no es POST, renderiza el formulario vacío
     return render(request, 'crear_usuario.html')
-
 @login_required
 def cursos_view(request):
     cursos = Curso.objects.all()
