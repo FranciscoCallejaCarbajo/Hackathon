@@ -47,13 +47,42 @@ busqueda.addEventListener("keyup", (event) => {
   }
 });
 
-//Favoritos: 
+// //Favoritos: 
 
-document.addEventListener('DOMContentLoaded', function() {
-  const corazones = document.querySelectorAll('.corazon');
-  corazones.forEach(corazon => {
-      corazon.addEventListener('click', function() {
-          this.textContent = this.textContent === '🖤' ? '❤️' : '🖤';
-      });
-  });
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//   const corazones = document.querySelectorAll('.corazon');
+//   corazones.forEach(corazon => {
+//       corazon.addEventListener('click', function() {
+//           this.textContent = this.textContent === '🖤' ? '❤️' : '🖤';
+//       });
+//   });
+// });
+// document.addEventListener('DOMContentLoaded', function () {
+//   const buttons = document.querySelectorAll('.corazon');
+//   buttons.forEach(button => {
+//       button.addEventListener('click', function (event) {
+//           event.preventDefault();
+//           const cursoId = this.getAttribute('data-curso-id');
+//           const csrfToken = '{{ csrf_token }}';
+//           const isLiked = this.textContent.trim() === '❤️';
+
+//           // Cambiar el corazón inmediatamente
+//           this.textContent = isLiked ? '🖤' : '❤️';
+
+//           fetch(`/like/${cursoId}/`, {
+//               method: 'POST',
+//               headers: {
+//                   'Content-Type': 'application/json',
+//                   'X-CSRFToken': csrfToken
+//               }
+//           })
+//           .then(response => response.json())
+//           .then(data => {
+//               if (data.liked !== !isLiked) {
+//                   // Revertir si hay un error
+//                   this.textContent = isLiked ? '❤️' : '🖤';
+//               }
+//           });
+//       });
+//   });
+// });

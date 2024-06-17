@@ -169,7 +169,8 @@
     </main>
 </div>
 
-<script src="{% static 'script.js' %}"></script>
+{% comment %} <script src="{% static 'script.js' %}"></script> {% endcomment %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.corazon');
@@ -201,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+
 </body>
 </html>
-
