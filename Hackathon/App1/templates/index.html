@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-learn</title>
-    <link rel="stylesheet" href="{% static "styles.css" %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="{% static "Logo(E).svg" %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'Logo(E).svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="w-full">
@@ -17,7 +18,7 @@
     <header class="bg-gray-900 py-6 px-4 md:px-6">
         <div class="container mx-auto flex items-center justify-between">
             <a class="text-white font-bold text-2xl" href="">
-                <img src="{% static "Logo.svg" %}" alt="http://127.0.0.1:8000/">
+                <img src="{% static 'Logo.svg' %}" alt="http://127.0.0.1:8000/">
             </a>
             <div class="flex items-center gap-4">
                 {% if user.is_authenticated %}
@@ -99,16 +100,13 @@
                         {% endfor %}
                     </div>
                     {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'like_course' curso.id %}" style="position: absolute; bottom: 10px; right: 10px;">
-                        {% csrf_token %}
-                        <button type="submit" class="corazon" style="font-size: 24px;">
-                            {% if curso in usuario.favoritos.all %}
-                                ❤️
-                            {% else %}
-                                🖤
-                            {% endif %}
-                        </button>
-                    </form>
+                    <button class="corazon" data-curso-id="{{ curso.id }}" style="position: absolute; bottom: 10px; right: 10px; font-size: 24px;">
+                        {% if curso in usuario.favoritos.all %}
+                            ❤️
+                        {% else %}
+                            🖤
+                        {% endif %}
+                    </button>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -146,7 +144,7 @@
             <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
                 <div class="sm:flex sm:items-center sm:justify-between">
                     <a href="http://127.0.0.1:8000/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                        <img src="{% static "Logo.svg" %}" class="h-8" alt="Flowbite Logo" />
+                        <img src="{% static 'Logo.svg' %}" class="h-8" alt="Flowbite Logo" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">  
@@ -171,6 +169,38 @@
     </main>
 </div>
 
-<script src="{% static "script.js" %}"></script>
+<script src="{% static 'script.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.corazon');
+    buttons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const cursoId = this.getAttribute('data-curso-id');
+            const csrfToken = '{{ csrf_token }}';
+            const isLiked = this.textContent.trim() === '❤️';
+
+            // Cambiar el corazón inmediatamente
+            this.textContent = isLiked ? '🖤' : '❤️';
+
+            fetch(`/like/${cursoId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.liked !== !isLiked) {
+                    // Revertir si hay un error
+                    this.textContent = isLiked ? '❤️' : '🖤';
+                }
+            });
+        });
+    });
+});
+</script>
 </body>
 </html>
+
