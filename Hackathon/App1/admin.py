@@ -1,11 +1,14 @@
 from django.contrib import admin
-from .models import Usuarios, Categoria, Curso, UsuarioCurso, CursoCategoria, Favoritos
+from .models import Usuarios, Categoria, Curso, UsuarioCurso, CursoCategoria
+# Register your models here.
+
+admin.site.site_header = 'Usuarios'
+admin.site.site_title = 'Usuario'
 
 @admin.register(Usuarios)
-class UsuariosAdmin(admin.ModelAdmin):
+class UsuarioAdmin(admin.ModelAdmin):
     fields = ["nombre", "apellido", "email", "contraseña", "birthday"]
-    list_display = ["nombre", "apellido", "email", "birthday"]
-    search_fields = ["nombre", "apellido", "email"]
+    list_display = ["nombre", "apellido", "email", "contraseña", "birthday"]
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
@@ -21,14 +24,9 @@ class CursoAdmin(admin.ModelAdmin):
 @admin.register(UsuarioCurso)
 class UsuarioCursoAdmin(admin.ModelAdmin):
     list_display = ['usuario', 'curso']
-    search_fields = ['usuario__user__username', 'curso__titulo']
+    search_fields = ['usuario__username', 'curso__titulo']
 
 @admin.register(CursoCategoria)
 class CursoCategoriaAdmin(admin.ModelAdmin):
     list_display = ['curso', 'categoria']
     search_fields = ['curso__titulo', 'categoria__nombre']
-
-@admin.register(Favoritos)
-class FavoritosAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'curso', 'fecha']
-    search_fields = ['usuario__nombre', 'curso__titulo']

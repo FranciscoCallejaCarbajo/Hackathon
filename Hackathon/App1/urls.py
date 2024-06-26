@@ -1,17 +1,16 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
-from .views import IndexView, LoginView, RegisterView, UserView, LogoutView, crear_usuario, like_course
+from App1.views import IndexView, LoginView, RegisterView, cursos_view, crear_usuario, UserView, LogoutView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', IndexView, name='index'),
     path('login/', LoginView, name='login'),
     path('register/', RegisterView, name='register'),
+    path('cursos/', cursos_view, name='cursos'),
     path('user/', UserView, name='user'),
     path('logout/', LogoutView, name='logout'),
     path('crear_usuario/', crear_usuario, name='crear_usuario'),
-    path('like/<int:curso_id>/', like_course, name='like_course'),
+    # Agrega la URL para la página de logout utilizando auth_views
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+       
