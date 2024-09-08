@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zhi-7vxw32c$n45glt+$^s8ojt%&!$2vyp#=z1!&#6f=llq5=c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG ='RENDER' not in os.environ
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Hackathon.settings')
 
 ALLOWED_HOSTS = []
