@@ -115,3 +115,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #nose
+DJANGO_SETTINGS_MODULE = 'Hackathon.settings'
+
